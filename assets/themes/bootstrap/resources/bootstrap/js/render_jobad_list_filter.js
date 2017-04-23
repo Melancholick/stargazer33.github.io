@@ -130,7 +130,7 @@ function detailFormatter(index, row) {
 //Formatter for published column. It take a value and split it by ','. ANd take only first part with number of day and month.
 function publishedFormatter(value) {
     var publishedDay = value.split(",")[0];
-    return '<p class="publishedDate">' + publishedDay + '</p>';
+    return '<p class="publishedDate"> <i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i><span class="sr-only">Loading...</span>4e3-gh' + publishedDay + '</p>';
 }
 //Formatter for title column. So it is incapsulating title in <a> which is linked to anchor of itself and then it takes passTag variable that was prepared before by tagsFormatter.
 function titleFormatter(data, row, value) {
