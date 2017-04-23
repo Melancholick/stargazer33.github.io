@@ -1,0 +1,15 @@
+﻿1.HACK 1: bootstrap-table.js - удаление колонки с кнопкой показа развернутой информации.
+	Надо закоментировать часть кода в bootstrap-table.js отвечающим за создание самой колонки и кнопки. Комментируемый участок находятся примерно на 1668-1672 строке. Участок подлежащий комментированию приведен ниже.
+	html.push('<td>',
+		'<a class="detail-icon" href="#">',
+			sprintf('<i class="%s %s"></i>', this.options.iconsPrefix, this.options.icons.detailOpen),
+		'</a>',
+	'</td>');
+	
+2.HACK 2: bootstrap-table.js - подключение иконок и изменение их стилей.
+	В BootstrapTable.DEFAULTS(строчка 280), надо прописать около 358 строчки свои iconsPrefixXX, iconsStylePrefix и сами иконки в icons{}(строчка ~359).
+	А после в коде совершить замену, к примеру на ~1881 строчке, с:
+	$this.find('i').attr('class', sprintf('%s %s', that.options.iconsPrefix, that.options.icons.detailOpen));
+	на:
+	$this.find('i').attr('class', sprintf('%s %s %s', that.options.iconsPrefixXX, that.options.icons.detailOpenXX, that.options.iconsStylePrefix));
+	Класс добавляемый iconsStylePrefix надо прописать в файле стилей(style.css).
