@@ -1879,7 +1879,7 @@
                 $tr.next().remove();
             } else {
                 $this.find('i').attr('class', sprintf('%s %s', that.options.iconsPrefix, that.options.icons.detailClose));
-                $tr.after(sprintf('<tr class="detail-view"><td colspan="%s"></td></tr>', $tr.find('td').length));
+                $tr.after(sprintf('<tr class="detail-view success"><td colspan="%s"></td></tr>', $tr.find('td').length));
                 var $element = $tr.next().find('td');
                 var content = calculateObjectValue(that.options, that.options.detailFormatter, [index, row, $element], '');
                 if($element.length === 1) {
