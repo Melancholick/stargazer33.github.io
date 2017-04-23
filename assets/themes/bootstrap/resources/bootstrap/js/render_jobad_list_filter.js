@@ -141,5 +141,5 @@ function titleFormatter(data, row, value) {
         appendValue = '<span class = "tag label label-primary labelTag">' + row.tags[i] + '</span>';
         labelTags = labelTags.concat(appendValue);
     }
-    return '<a class="detail-icon" href="#"><i class="fa fa-plus-square-o iconStyle"></i></a> <a href="javascript:void(0)" class="anchorLink">' + row.title + '</a><br>' + labelTags;
+    return '<a class="detail-icon" href="#"><i class="fa fa-plus-square-o iconStyle"></i></a> ' + row.title + '<br>' + labelTags;
 }
