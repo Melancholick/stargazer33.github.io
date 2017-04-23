@@ -1658,7 +1658,7 @@
         }
 
         if (!this.options.cardView && this.options.detailView) {
-            html.push('<td>',
+            html.push('<td class="vert-align">',
                 '<a class="detail-icon" href="#">',
                 sprintf('<i class="%s %s"></i>', this.options.iconsPrefix, this.options.icons.detailOpen),
                 '</a>',
