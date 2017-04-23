@@ -353,8 +353,9 @@
         searchText: '',
         iconSize: undefined,
         buttonsClass: 'default',
-        iconsPrefixFA: 'fa',
-        iconsPrefix: 'glyphicon', // glyphicon of fa (font awesome)
+        iconsPrefixFA: 'fa',      // glyphicon of FA(font awesome)
+        iconsPrefix: 'glyphicon', // glyphicon of for bootstrap glyphs
+        iconsStylePrefix: 'iconStyle',
         icons: {
             paginationSwitchDown: 'glyphicon-collapse-down icon-chevron-down',
             paginationSwitchUp: 'glyphicon-collapse-up icon-chevron-up',
@@ -1877,11 +1878,11 @@
 
             // remove and update
             if ($tr.next().is('tr.detail-view')) {
-                $this.find('i').attr('class', sprintf('%s %s', that.options.iconsPrefixFA, that.options.icons.detailOpenFA));
+                $this.find('i').attr('class', sprintf('%s %s %s', that.options.iconsPrefixFA, that.options.icons.detailOpenFA, that.options.iconsStylePrefix));
                 that.trigger('collapse-row', index, row);
                 $tr.next().remove();
             } else {
-                $this.find('i').attr('class', sprintf('%s %s', that.options.iconsPrefixFA, that.options.icons.detailCloseFA));
+                $this.find('i').attr('class', sprintf('%s %s %s', that.options.iconsPrefixFA, that.options.icons.detailCloseFA, that.options.iconsStylePrefix));
                 $tr.after(sprintf('<tr class="detail-view"><td colspan="%s"></td></tr>', $tr.find('td').length));
                 var $element = $tr.next().find('td');
                 var content = calculateObjectValue(that.options, that.options.detailFormatter, [index, row, $element], '');
