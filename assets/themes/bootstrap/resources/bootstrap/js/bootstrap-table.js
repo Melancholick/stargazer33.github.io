@@ -353,6 +353,7 @@
         searchText: '',
         iconSize: undefined,
         buttonsClass: 'default',
+        iconsPrefixFA: 'fa',
         iconsPrefix: 'glyphicon', // glyphicon of fa (font awesome)
         icons: {
             paginationSwitchDown: 'glyphicon-collapse-down icon-chevron-down',
@@ -361,7 +362,9 @@
             toggle: 'glyphicon-list-alt icon-list-alt',
             columns: 'glyphicon-th icon-th',
             detailOpen: 'glyphicon-plus icon-plus',
-            detailClose: 'glyphicon-minus icon-minus'
+            detailClose: 'glyphicon-minus icon-minus',
+            detailOpenFA: 'fa-plus-square-o',
+            detailCloseFA: 'fa-minus-square-o'
         },
 
         customSearch: $.noop,
@@ -1658,11 +1661,11 @@
         }
 
         if (!this.options.cardView && this.options.detailView) {
-            html.push('<td class="vert-align">',
+/*            html.push('<td>',
                 '<a class="detail-icon" href="#">',
                 sprintf('<i class="%s %s"></i>', this.options.iconsPrefix, this.options.icons.detailOpen),
                 '</a>',
-                '</td>');
+                '</td>');*/
         }
 
         $.each(this.header.fields, function(j, field) {
@@ -1874,11 +1877,11 @@
 
             // remove and update
             if ($tr.next().is('tr.detail-view')) {
-                $this.find('i').attr('class', sprintf('%s %s', that.options.iconsPrefix, that.options.icons.detailOpen));
+                $this.find('i').attr('class', sprintf('%s %s', that.options.iconsPrefixFA, that.options.icons.detailOpenFA));
                 that.trigger('collapse-row', index, row);
                 $tr.next().remove();
             } else {
-                $this.find('i').attr('class', sprintf('%s %s', that.options.iconsPrefix, that.options.icons.detailClose));
+                $this.find('i').attr('class', sprintf('%s %s', that.options.iconsPrefixFA, that.options.icons.detailCloseFA));
                 $tr.after(sprintf('<tr class="detail-view"><td colspan="%s"></td></tr>', $tr.find('td').length));
                 var $element = $tr.next().find('td');
                 var content = calculateObjectValue(that.options, that.options.detailFormatter, [index, row, $element], '');

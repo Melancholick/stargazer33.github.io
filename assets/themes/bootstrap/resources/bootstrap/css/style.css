@@ -151,6 +151,10 @@ text-decoration: underline;
 #table > tbody> tr >td.vert-align{
     vertical-align: middle;
 }
+/* #table thead > tr > th.detail,
+#table tbody > tr:not(.detail-view) > td:first-of-type {
+  display: none;
+}  */
 .labelTag{
   float:left;
   margin: 5px 5px 0px 0px;
@@ -201,12 +205,8 @@ border-top: 1px solid #eee;
 .publishedDate{
   float:left;
 }
-#table thead > tr > th.detail,
-#table tbody > tr:not(.detail-view) > td:first-of-type {
-  display: none;
-} 
 }
-@media (min-width: 350px) and (max-width: 380px) {
+/* @media (min-width: 350px) and (max-width: 380px) {
 .publishedDate{
   width:75px;
 }
@@ -235,4 +235,4 @@ border-top: 1px solid #eee;
 .publishedDate{
   width:225px;
 }
-}
+} */
