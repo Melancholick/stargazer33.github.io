@@ -204,7 +204,10 @@ text-decoration: underline;
   font-weight: bold;
 }
 
-
+#table > tbody > tr.detail-view > td > div > div.row{
+    margin-right: 0px;
+    margin-left: 0px;
+}
 #table > tbody> tr >td.vert-align{
     vertical-align: middle;
 }
