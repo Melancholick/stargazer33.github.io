@@ -6,6 +6,30 @@ Array.prototype.remove = function(from, to) {
   return this.push.apply(this, rest);
 };
 
+function tagsDeco() {
+    console.log(arguments);
+    var appendValue = "";
+    var rtTags = "";
+    if(arguments.length === 0) {
+        return null;
+    } else if(arguments.length === 1) {
+        for (i = 0; i < tags.length; i++) {
+            appendValue = '<span class = "tag label label-primary labelTag">' + tags[i] + '</span>';
+            rtTags = rtTags.concat(appendValue);
+        }
+        return rtTags;
+    } else {
+        for (i = 0; i < arguments.length; i++) {
+            tags = arguments[i];
+            for (y = 0; y < tags.length; y++) {
+            appendValue = '<span class = "tag label label-primary labelTag">' + tags[y] + '</span>';
+            rtTags = rtTags.concat(appendValue);
+            }
+        }
+    }
+    return rtTags;
+}
+
 $(document).ready(function(){
 //This filterTag enables show of only objects with tag REMOTE1_100 by default.
     var filterTag = ['REMOTE1_100'];
@@ -43,7 +67,7 @@ $(document).ready(function(){
     });
 //Hash is anchor reference in link, so it get part after # and by its id simulate click on <a> tag by this id, after a little timeout(because table need some time to set up).
    var hash = window.location.hash.substr(1);
-    if (!(hash == null)){
+    if (!(hash === null)){
         setTimeout(function(){
             document.getElementById(hash).click();
         }, 100);
@@ -62,7 +86,7 @@ $(document).ready(function(){
 //It get "data-filter" attribute from clicked element
         var filterName = $(this).attr('data-filter');
 //If its "null", its stops
-        if (filterName == null){
+        if (filterName === null){
             return;
 //If its "Show jobs worldwide", than its defaulting the filtering to REMOTE1_100(later i will rewrite it to filtering groups, each window will generate is own part of filter query). So far its just a stub, as far there is no more tags to filter.
         } else if(filterName =='all'){
@@ -75,7 +99,7 @@ $(document).ready(function(){
 //If it has different "data-filter" than null or default, and checkbox get a "checked" prop than its append this value to filtering query. If this value are already in query, that its get removed.       
             } else {
             var check = $(this).prop('checked');
-            if(check == true) {                                                      
+            if(check === true) {                                                      
                 filterTag.push(filterName);
             } else {                                                                   
                 filterTag.remove(filterName.indexOf(filterTag));
@@ -133,14 +157,6 @@ function publishedFormatter(value) {
 //Formatter for title column. So it is incapsulating title in <a> which is linked to anchor of itself and then it takes passTag variable that was prepared before by tagsFormatter.
 function titleFormatter(data, row, value) {
     var labelTags = "";
-    var appendValue = "";
-    for (i = 0; i < row.tagsNames1.length; i++) {
-        appendValue = '<span class = "tag label label-primary labelTag">' + row.tagsNames1[i] + '</span>';
-        labelTags = labelTags.concat(appendValue);
-    }
-    for (i = 0; i < row.tagsNames2.length; i++) {
-        appendValue = '<span class = "tag label label-primary labelTag">' + row.tagsNames2[i] + '</span>';
-        labelTags = labelTags.concat(appendValue);
-    }
+    labelTags = tagsDeco(row.tagsNames1, row.tagsNames2);
     return '<a class="detail-icon" href="#"><i class="fa fa-plus-square-o iconStyle"></i></a> ' + row.title + '<br>' + labelTags;
 }
