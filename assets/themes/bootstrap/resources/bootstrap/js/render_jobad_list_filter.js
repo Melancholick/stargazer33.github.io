@@ -12,12 +12,6 @@ function tagsDeco() {
     var rtTags = "";
     if(arguments.length === 0) {
         return null;
-    } else if(arguments.length === 1) {
-        for (i = 0; i < tags.length; i++) {
-            appendValue = '<span class = "tag label label-primary labelTag">' + tags[i] + '</span>';
-            rtTags = rtTags.concat(appendValue);
-        }
-        return rtTags;
     } else {
         for (i = 0; i < arguments.length; i++) {
             tags = arguments[i];
