@@ -6,20 +6,12 @@ Array.prototype.remove = function(from, to) {
   return this.push.apply(this, rest);
 };
 
-function tagsDeco() {
-    console.log(arguments);
+function tagsDeco(tags) {
     var appendValue = "";
     var rtTags = "";
-    if(arguments.length === 0) {
-        return null;
-    } else {
-        for (i = 0; i < arguments.length; i++) {
-            tags = arguments[i];
-            for (y = 0; y < tags.length; y++) {
-            appendValue = '<span class = "tag label label-primary labelTag">' + tags[y] + '</span>';
-            rtTags = rtTags.concat(appendValue);
-            }
-        }
+    for (i = 0; i < tags.length; i++) {
+        appendValue = '<span class = "tag label label-primary labelTag">' + tags[i] + '</span>';
+        rtTags = rtTags.concat(appendValue);
     }
     return rtTags;
 }
@@ -150,7 +142,8 @@ function publishedFormatter(value) {
 }
 //Formatter for title column. So it is incapsulating title in <a> which is linked to anchor of itself and then it takes passTag variable that was prepared before by tagsFormatter.
 function titleFormatter(data, row, value) {
-    var labelTags = "";
-    labelTags = tagsDeco(row.tagsNames1, row.tagsNames2);
+    var tagsNames1 = tagsDeco(row.tagsNames1);
+    var tagsNames2 = tagsDeco(row.tagsNames2);
+    var labelTags = tagsNames2 + tagsNames1;
     return '<a class="detail-icon" href="#"><i class="fa fa-plus-square-o iconStyle"></i></a> ' + row.title + '<br>' + labelTags;
 }
