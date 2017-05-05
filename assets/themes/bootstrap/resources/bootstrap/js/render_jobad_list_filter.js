@@ -53,7 +53,7 @@ $(document).ready(function(){
     });
 //Hash is anchor reference in link, so it get part after # and by its id simulate click on <a> tag by this id, after a little timeout(because table need some time to set up).
    var hash = window.location.hash.substr(1);
-    if (!(hash === null)){
+    if (!(hash == null)){
         setTimeout(function(){
             document.getElementById(hash).click();
         }, 100);
@@ -72,7 +72,7 @@ $(document).ready(function(){
 //It get "data-filter" attribute from clicked element
         var filterName = $(this).attr('data-filter');
 //If its "null", its stops
-        if (filterName === null){
+        if (filterName == null){
             return;
 //If its "Show jobs worldwide", than its defaulting the filtering to REMOTE1_100(later i will rewrite it to filtering groups, each window will generate is own part of filter query). So far its just a stub, as far there is no more tags to filter.
         } else if(filterName =='all'){
@@ -85,7 +85,7 @@ $(document).ready(function(){
 //If it has different "data-filter" than null or default, and checkbox get a "checked" prop than its append this value to filtering query. If this value are already in query, that its get removed.       
             } else {
             var check = $(this).prop('checked');
-            if(check === true) {                                                      
+            if(check == true) {                                                      
                 filterTag.push(filterName);
             } else {                                                                   
                 filterTag.remove(filterName.indexOf(filterTag));
