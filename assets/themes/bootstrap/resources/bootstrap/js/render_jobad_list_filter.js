@@ -144,6 +144,6 @@ function publishedFormatter(value) {
 function titleFormatter(data, row, value) {
     var tagsNames1 = tagsDeco(row.tagsNames1);
     var tagsNames2 = tagsDeco(row.tagsNames2);
-    var labelTags = tagsNames2 + tagsNames1;
+    var labelTags = tagsNames1 + tagsNames2;
     return '<a class="detail-icon" href="#"><i class="fa fa-plus-square-o iconStyle"></i></a> ' + row.title + '<br>' + labelTags;
 }
