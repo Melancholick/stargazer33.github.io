@@ -19,6 +19,7 @@ function tagsDeco(tags) {
 $(document).ready(function(){
 //This filterTag enables show of only objects with tag REMOTE1_100 by default.
     var filterTag = ['REMOTE1_100'];
+    $(".loader").hide();
 // Function that setups table
     $(function () {
         var $table = $('#table').bootstrapTable({data: json_data,
@@ -49,7 +50,17 @@ $(document).ready(function(){
             return item.tags.some(hasTag);
         };
 //table reloads with new, filtered data. 
-        $table = $('#table').bootstrapTable('load', $.grep(json_data, grepFunc));
+        if (($.grep(json_data, grepFunc)).length<=100){
+            $table = $('#table').bootstrapTable('load', $.grep(json_data, grepFunc));
+        } else {
+            $(".loader").show();
+            $("#table").hide();
+            setTimeout(function(){
+            $table = $('#table').bootstrapTable('load', $.grep(json_data, grepFunc));
+            $(".loader").hide();
+            $("#table").show();
+            }, 100);
+        }
     });
 //Hash is anchor reference in link, so it get part after # and by its id simulate click on <a> tag by this id, after a little timeout(because table need some time to set up).
    var hash = window.location.hash.substr(1);
@@ -109,7 +120,17 @@ $(document).ready(function(){
             };
         }
 //table reloads with new, filtered data.
-        $table = $('#table').bootstrapTable('load', $.grep(json_data, grepFunc));
+        if (($.grep(json_data, grepFunc)).length<=100){
+            $table = $('#table').bootstrapTable('load', $.grep(json_data, grepFunc));
+        } else {
+            $(".loader").show();
+            $("#table").hide();
+            setTimeout(function(){
+            $table = $('#table').bootstrapTable('load', $.grep(json_data, grepFunc));
+            $(".loader").hide();
+            $("#table").show();
+            }, 100);
+        }
     });
 });
 
