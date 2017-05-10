@@ -16,7 +16,22 @@ function tagsDeco(tags) {
     return rtTags;
 }
 
+function tableLoad() {
+    if (($.grep(json_data, grepFunc)).length<=100){
+        $table = $('#table').bootstrapTable('load', $.grep(json_data, grepFunc));
+    } else {
+        $(".loader").show();
+        $("#table").hide();
+        setTimeout(function(){
+        $table = $('#table').bootstrapTable('load', $.grep(json_data, grepFunc));
+        $(".loader").hide();
+        $("#table").show();
+        }, 100);
+    }
+}
+
 $(document).ready(function(){
+    try {
 //This filterTag enables show of only objects with tag REMOTE1_100 by default.
     var filterTag = ['REMOTE1_100'];
     $(".loader").hide();
@@ -50,17 +65,7 @@ $(document).ready(function(){
             return item.tags.some(hasTag);
         };
 //table reloads with new, filtered data. 
-        if (($.grep(json_data, grepFunc)).length<=100){
-            $table = $('#table').bootstrapTable('load', $.grep(json_data, grepFunc));
-        } else {
-            $(".loader").show();
-            $("#table").hide();
-            setTimeout(function(){
-            $table = $('#table').bootstrapTable('load', $.grep(json_data, grepFunc));
-            $(".loader").hide();
-            $("#table").show();
-            }, 100);
-        }
+        tableLoad();
     });
 //Hash is anchor reference in link, so it get part after # and by its id simulate click on <a> tag by this id, after a little timeout(because table need some time to set up).
    var hash = window.location.hash.substr(1);
@@ -120,18 +125,11 @@ $(document).ready(function(){
             };
         }
 //table reloads with new, filtered data.
-        if (($.grep(json_data, grepFunc)).length<=100){
-            $table = $('#table').bootstrapTable('load', $.grep(json_data, grepFunc));
-        } else {
-            $(".loader").show();
-            $("#table").hide();
-            setTimeout(function(){
-            $table = $('#table').bootstrapTable('load', $.grep(json_data, grepFunc));
-            $(".loader").hide();
-            $("#table").show();
-            }, 100);
-        }
+    tableLoad();
     });
+} catch(err) {
+console.log(err);
+}
 });
 
 //Formatter for detailed view(Full view of entry row). 
