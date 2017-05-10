@@ -17,16 +17,14 @@ function tagsDeco(tags) {
 }
 
 function tableLoad() {
-    if (($.grep(json_data, grepFunc)).length<=100){
+    if (($.grep(json_data, grepFunc)).length <= 50) {
         $table = $('#table').bootstrapTable('load', $.grep(json_data, grepFunc));
     } else {
         $(".loader").show();
         $("#table").hide();
-        setTimeout(function(){
         $table = $('#table').bootstrapTable('load', $.grep(json_data, grepFunc));
         $(".loader").hide();
         $("#table").show();
-        }, 100);
     }
 }
 
