@@ -1,18 +1,4 @@
 /**
- * Decorate tags from given array into html string, set of labeled tags.
- * @param {array} tags; ex: row.tagsNames1, row.tags;
- * @return {string} rtTags, a sum decorated tags;
- */
-function tagsDeco(tags) {
-    var appendValue = "";
-    var rtTags = "";
-    for (i = 0; i < tags.length; i++) {
-        appendValue = '<span class = "tag label label-primary labelTag">' + tags[i] + '</span>';
-        rtTags = rtTags.concat(appendValue);
-    }
-    return rtTags;
-}
-/**
  * Shows loading indicator while table is loading.
  * if there is less than 50 elements to load, than there is no load indicator;
  */
@@ -39,6 +25,7 @@ $(document).ready(function () {
         $(".loader").hide();
         /**
          * Function that setups table. Look wenzhixin documentation for details.
+         * http://bootstrap-table.wenzhixin.net.cn/documentation/
          */
         $(function () {
             var $table = $('#table').bootstrapTable({
@@ -91,7 +78,7 @@ $(document).ready(function () {
             }, 100);
         }
         /**
-         * Click on row = click to open detailed view
+         * Click on row = click to open detailed view.
          */
         $("#table").on("click", "tr", function () {
             $(this).find(".detail-icon").trigger("click");
@@ -103,8 +90,12 @@ $(document).ready(function () {
 /**
  * Formating data from json_data for detailed view of every row.
  * for every key:value dictionaries of row it decorates and pushes strings to html.
+ * @param {int} index, index=data-index of tr, this param passes this information to formatter;
+ * @param {dictionary} row; array of key:value dictionaries of item for this row from json_data;
+ * @return {string} htmled detailed view of clicked row;
  */
 function detailFormatter(index, row) {
+    console.log(index);
     var html = [];
     var sourceName = "";
     var passUrl = "";
@@ -127,7 +118,6 @@ function detailFormatter(index, row) {
 /**
  * Formater for published column.
  * @param {string} value; value of item.published for this row;
- * @var {string} publishedDay; split from value only the part with day and month;
  * @return {string} decorated publishedDay;
  */
 function publishedFormatter(value) {
@@ -137,7 +127,7 @@ function publishedFormatter(value) {
 /**
  * Formatter for title column.
  * @param {dictionary} data; json_data;
- * @param {dictionary} row; array of key:value dictionaries of item from json_data;
+ * @param {dictionary} row; array of key:value dictionaries of item for this row from json_data;
  * @param {string} value; value of item.title for this row;
  * @return {string} decorated labelTags;
  */
@@ -146,4 +136,19 @@ function titleFormatter(data, row, value) {
     var tagsNames2 = tagsDeco(row.tagsNames2);
     var labelTags = tagsNames1 + tagsNames2;
     return '<a class="detail-icon" href="#"><i class="fa fa-plus-square-o iconStyle"></i></a> ' + row.title + '<br>' + labelTags;
+}
+
+/**
+ * Decorate tags from given array into html string, set of labeled tags.
+ * @param {array} tags; ex: row.tagsNames1, row.tags;
+ * @return {string} rtTags, a sum decorated tags;
+ */
+function tagsDeco(tags) {
+    var appendValue = "";
+    var rtTags = "";
+    for (i = 0; i < tags.length; i++) {
+        appendValue = '<span class = "tag label label-primary labelTag">' + tags[i] + '</span>';
+        rtTags = rtTags.concat(appendValue);
+    }
+    return rtTags;
 }
