@@ -95,7 +95,6 @@ $(document).ready(function () {
  * @return {string} htmled detailed view of clicked row;
  */
 function detailFormatter(index, row) {
-    console.log(index);
     var html = [];
     var sourceName = "";
     var passUrl = "";
