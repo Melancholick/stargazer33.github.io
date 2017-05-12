@@ -279,6 +279,8 @@ border-top: 1px solid #eee;
   span.loaderFiller{
     display: none;
   }
+
+  }
 }
 /* @media (min-width: 350px) and (max-width: 380px) {
 .publishedDate{
