@@ -1,5 +1,6 @@
 /**
  * Shows loading indicator while table is loading.
+
  * if json_data has less than 50 elements, then load indicator are not used;
  */
 function tableLoad() {
@@ -47,6 +48,7 @@ $(document).ready(function () {
                 }]
             });
             /**
+
              * Checks if object of Job has tags that is valid for filtering into table.
              * @param {item} item; an object of type Job;
              * @return {boolean} true if every tag to filter are met in tags of element;
@@ -94,6 +96,7 @@ $(document).ready(function () {
  * @return {string} htmled detailed view of clicked row;
  */
 function detailFormatter(index, row) {
+    console.log(index);
     var html = [];
     var sourceName = "";
     var passUrl = "";
@@ -147,12 +150,13 @@ function titleFormatter(value, row) {
  * @param {array} tags; array with tags, ex: row.tagsNames1, row.tags;
  * @return {string} rtTags, a returned sum of decorated tags;
  */
+
 function tagsDeco(tags) {
-        var appendTags = "";
-        var rtTags = "";
-        for (i = 0; i < tags.length; i++) {
-            appendTags = '<span class = "tag label label-primary labelTag">' + tags[i] + '</span>';
-            rtTags = rtTags.concat(appendTags);
-        }
-        return rtTags;
+    var appendValue = "";
+    var rtTags = "";
+    for (i = 0; i < tags.length; i++) {
+        appendValue = '<span class = "tag label label-primary labelTag">' + tags[i] + '</span>';
+        rtTags = rtTags.concat(appendValue);
+    }
+    return rtTags;
 }

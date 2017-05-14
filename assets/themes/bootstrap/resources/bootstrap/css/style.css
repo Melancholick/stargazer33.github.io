@@ -257,7 +257,6 @@ border-top: 1px solid #eee;
 
 }
 
-
 @media (max-width: 380px) {
   .publishedDate{
     float:left;
@@ -273,6 +272,14 @@ border-top: 1px solid #eee;
     -moz-hyphens: auto;
     -webkit-hyphens: auto;
     hyphens: auto;
+  }
+  span.loader{
+    height: 60px;
+  }
+  span.loaderFiller{
+    display: none;
+  }
+
   }
 }
 /* @media (min-width: 350px) and (max-width: 380px) {
