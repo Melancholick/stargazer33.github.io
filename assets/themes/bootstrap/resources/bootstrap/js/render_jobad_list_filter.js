@@ -1,7 +1,5 @@
 /**
  * Shows loading indicator while table is loading.
-
- * if json_data has less than 50 elements, then load indicator are not used;
  */
 function tableLoad() {
     if (json_data.length <= 50) {
@@ -13,7 +11,7 @@ function tableLoad() {
         $table = $('#table').bootstrapTable('load', $.grep(json_data, grepFunc));
         $(".loader").hide();
         $("#table").show();
-        }, 1);
+        }, 10);
     }
 }
 /**
