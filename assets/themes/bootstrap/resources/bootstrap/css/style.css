@@ -83,11 +83,15 @@ p{
 }
 
 .filterRow{
-  display:none;
   margin-right: 0px;
   margin-left: 0px;
 }
-
+div.row.filterRow > div.leftFilter, div.row.filterRow > div.middleFilter{
+  display:none;
+}
+ div.row.filterRow > div.rightFilter{
+  float:right;
+}
 .Rem50{
   display:none;
 }

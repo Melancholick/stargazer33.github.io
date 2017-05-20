@@ -8,11 +8,24 @@ function tableLoad() {
     } else {
         $(".loader").show();
         $("#table").hide();
+        setTimeout(function () {
         $table = $('#table').bootstrapTable('load', $.grep(json_data, grepFunc));
         $(".loader").hide();
         $("#table").show();
+        }, 1);
     }
 }
+/**
+ * New method for arrays. Removes by index.
+ * @param {int} from, index starting from which function will remove objects of array;
+ * @param {int} to, index ending by which function will stop removement;
+ * @return {array} output resulted array;
+ */
+Array.prototype.remove = function(from, to) {
+  var rest = this.slice((to || from) + 1 || this.length);
+  this.length = from < 0 ? this.length + from : from;
+  return this.push.apply(this, rest);
+};
 /**
  * Main script, executes after page is ready.
  */
@@ -21,7 +34,7 @@ $(document).ready(function () {
         /**
          * Default filter for table.
          */
-        var filterTag = ['REMOTE1_100'];
+        var filterRemoteness = ['REMOTE1_100'];
         $(".loader").hide();
         /**
          * Function that setups table. Look wenzhixin documentation for details.
@@ -52,17 +65,25 @@ $(document).ready(function () {
              * @return {array} elements which tags are true to filtering tags, and will be shown in table;
              */
             grepFunc = function (item) {
-                /**
-                 * Checks if element has filtered tags.
-                 * @param {array} item.tags array with tags;
-                 * @return {boolean} true if every tag to filter are met in tags of element;
-                 */
-                function hasTag(element) {
-                    return element == filterTag;
+                function checkbox1Tz() {
+                    return true;
                 }
-
-                return item.tags.some(hasTag);
-            };
+                function checkbox2Workauth() {
+                    return true;
+                }
+                /**
+                 * Checks if array of searchTags has filterTags in it, for Remoteness tag.
+                 * @param {array} searchTags array with tags from json_data, item.tags;
+                 * @param {array} filterTags array with tags to filter;
+                 * @return {boolean} true if all elements of filterTags included in searchTags;
+                 */
+                function checkbox3Remoteness(searchTags, filterTags) {
+                    return filterTags.some(function (element) {
+                        return searchTags.indexOf(element) >= 0;
+                    });
+                }
+                return checkbox3Remoteness(item.tags, filterRemoteness)&&checkbox2Workauth()&&checkbox1Tz();
+            }; 
             /**
              * Loading table with filtered by default data.
              */
@@ -83,6 +104,23 @@ $(document).ready(function () {
         $("#table").on("click", "tr", function () {
             $(this).find(".detail-icon").trigger("click");
         });
+        /**
+         * Click on checkbox = adding value of data-filter to filtering tags if checked, delete if uncheked.
+         */
+        $(".filter-checkbox").click(function () {
+        var filterName = $(this).attr('data-filter');
+        if (filterName == null){
+            return;
+        } else {
+            var check = $(this).prop('checked');
+            if(check == true) {                                                      
+                filterRemoteness.push(filterName);
+            } else {                                                                   
+                filterRemoteness.remove(filterName.indexOf(filterRemoteness));
+            }
+        }
+    tableLoad();
+    });
     } catch (err) {
         console.log(err);
     }
