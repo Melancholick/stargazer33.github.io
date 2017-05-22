@@ -119,7 +119,6 @@ function tableLoad() {
  * @return {string} html форматированая презентация развернутого вида записи;
  */
 function detailFormatter(index, row) {
-    console.log(index);
     var html = [];
     var sourceName = "";
     var passUrl = "";
