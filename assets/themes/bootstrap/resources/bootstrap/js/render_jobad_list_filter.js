@@ -1,42 +1,12 @@
 /**
- * Shows loading indicator while table is loading.
- */
-function tableLoad() {
-    if (json_data.length <= 50) {
-        $table = $('#table').bootstrapTable('load', $.grep(json_data, grepFunc));
-    } else {
-        $(".loader").show();
-        $("#table").hide();
-        setTimeout(function () {
-        $table = $('#table').bootstrapTable('load', $.grep(json_data, grepFunc));
-        $(".loader").hide();
-        $("#table").show();
-        }, 10);
-    }
-}
-/**
- * New method for arrays. Removes by index.
- * @param {int} from, index starting from which function will remove objects of array;
- * @param {int} to, index ending by which function will stop removement;
- * @return {array} output resulted array;
- */
-Array.prototype.remove = function(from, to) {
-  var rest = this.slice((to || from) + 1 || this.length);
-  this.length = from < 0 ? this.length + from : from;
-  return this.push.apply(this, rest);
-};
-/**
- * Main script, executes after page is ready.
+ * Скрипт выполняющийся после того как страница загрузится
  */
 $(document).ready(function () {
     try {
-        /**
-         * Default filter for table.
-         */
-        var filterRemoteness = ['REMOTE1_100'];
         $(".loader").hide();
         /**
-         * Function that setups table. Look wenzhixin documentation for details.
+         * Функция которая настраивает отображение таблицы и её функционал.
+         * Для деталей рекомендуется ознакомится с документацией по адрессу:
          * http://bootstrap-table.wenzhixin.net.cn/documentation/
          */
         $(function () {
@@ -59,38 +29,39 @@ $(document).ready(function () {
                 }]
             });
             /**
-
-             * Checks if object of Job has tags that is valid for filtering into table.
-             * @param {item} item; an object of type Job;
-             * @return {boolean} true if every tag to filter are met in tags of element;
+             * Функция которая составляет выборку записей для отображения в таблице.
+             * Если запись отвечает истиной на все условия, то она добавляется в выборку.
+             * @param {item} item; обьект из json_data;
+             * @return {boolean};
              */
             grepFunc = function (item) {
                 function checkbox1Tz() {
                     return true;
                 }
+
                 function checkbox2Workauth() {
                     return true;
                 }
+
                 /**
-                 * Checks if array of searchTags has filterTags in it, for Remoteness tag.
-                 * @param {array} searchTags array with tags from json_data, item.tags;
-                 * @param {array} filterTags array with tags to filter;
-                 * @return {boolean} true if all elements of filterTags included in searchTags;
+                 * Функция для '.some' проверки массива с тэгами на наличие '50% remote' тэга
+                 * @param {string} element;
+                 * @return {boolean};
                  */
-                function checkbox3Remoteness(searchTags, filterTags) {
-                    return filterTags.some(function (element) {
-                        return searchTags.indexOf(element) >= 0;
-                    });
+                function checkbox3Remoteness(element) {
+                    if (check50remote == true) {
+                        return element != 'REMOTE1_50';
+                    } else if (check50remote == false) {
+                        return element == 'REMOTE1_100';
+                    }
                 }
-                return checkbox3Remoteness(item.tags, filterRemoteness)&&checkbox2Workauth()&&checkbox1Tz();
-            }; 
-            /**
-             * Loading table with filtered by default data.
-             */
+
+                return item.tags.some(checkbox3Remoteness) && checkbox2Workauth() && checkbox1Tz();
+            };
             tableLoad();
         });
         /**
-         * If requested URL has a #hash part, then we click on element which id=hash.
+         * Если запрошеный URL имеет #hash составляющую, то производится клик по элементу с id=hash.
          */
         var hash = window.location.hash.substr(1);
         if (!(hash == null)) {
@@ -99,38 +70,53 @@ $(document).ready(function () {
             }, 100);
         }
         /**
-         * Click on row = click to open detailed view.
+         * Клик по строке таблицы, производит клик по кнопке развернутого вида записи.
          */
         $("#table").on("click", "tr", function () {
             $(this).find(".detail-icon").trigger("click");
         });
         /**
-         * Click on checkbox = adding value of data-filter to filtering tags if checked, delete if uncheked.
+         * При клике по чекбоксу производится перезагрузка таблица с перепроверкой состояния чекбоксов.
          */
         $(".filter-checkbox").click(function () {
-        var filterName = $(this).attr('data-filter');
-        if (filterName == null){
-            return;
-        } else {
-            var check = $(this).prop('checked');
-            if(check == true) {                                                      
-                filterRemoteness.push(filterName);
-            } else {                                                                   
-                filterRemoteness.remove(filterName.indexOf(filterRemoteness));
-            }
-        }
-    tableLoad();
-    });
+            tableLoad();
+        });
     } catch (err) {
         console.log(err);
     }
 });
 /**
- * Formating data from json_data for detailed view of every row.
- * for every key:value dictionaries of row it decorates and pushes strings to html.
- * @param {int} index, index=data-index of tr, this param passes this information to formatter;
- * @param {item} row; an object of type Job;
- * @return {string} htmled detailed view of clicked row;
+ * Набор глобальных переменых с состояниями чекбоксов.
+ */
+var check50remote = '';
+/**
+ * Функция проверяющая состояния чекбоксов и записывающая их.
+ */
+function readCheckboxesState() {
+    check50remote = $('#checkbox50remote').prop('checked');
+}
+/**
+ * Функция загружающая таблицу и отображающая индикатор загрузки.
+ */
+function tableLoad() {
+    if (json_data.length <= 50) {
+        readCheckboxesState();
+        $table = $('#table').bootstrapTable('load', $.grep(json_data, grepFunc));
+    } else {
+        readCheckboxesState();
+        $(".loader").show();
+        $("#table").hide();
+        $table = $('#table').bootstrapTable('load', $.grep(json_data, grepFunc));
+        $(".loader").hide();
+        $("#table").show();
+    }
+}
+
+/**
+ * Форматирует информацию для презентации в развернутом виде записи.
+ * @param {int} index, index=data-index строки;
+ * @param {item} row; обьект типа Job из json_data, тоже что и item;
+ * @return {string} html форматированая презентация развернутого вида записи;
  */
 function detailFormatter(index, row) {
     console.log(index);
@@ -155,25 +141,25 @@ function detailFormatter(index, row) {
 }
 
 /**
- * Collumn formatter functions has 3 param arguments to pass.
- * @param arg1 {string} value; value of item.'collumn field' for this item;
- * @param arg2 {item} item; an object of type Job;
- * @param arg3 {integer} index; value of item.published for this row;
+ * Форматер столбцов может передавать до трех типов аргументов.
+ * @param arg1 {string} value; значение item.'collumn field':value для этой записи;
+ * @param arg2 {item} item; обьект типа Job из json_data относящийся к этой записи;
+ * @param arg3 {integer} index; значение по index:value из данной записи;
  */
 /**
- * Formater for published column.
- * @param {string} value; value of item.published;
- * @return {string} decorated date of publishing, splited to only date and month;
+ * Форматер для столбца published.
+ * @param {string} value; значение published для обьекта Job;
+ * @return {string} форматированя строка, содержащая только дату и месяц;
  */
 function publishedFormatter(value) {
     var publishedDay = value.split(",")[0];
     return '<p class="publishedDate">' + publishedDay + '</p>';
 }
 /**
- * Formatter for title column.
- * @param {string} value; value of item.title;
- * @param {item} row; an object of type Job;
- * @return {string} decorated labelTags;
+ * Форматер для столбца title.
+ * @param {string} value; значение title для обьекта Job;
+ * @param {item} row; обьект типа Job из json_data;
+ * @return {string} кнопка развернутого вида + название записи + набор тэгов декорированных в спаны с лэйблами;
  */
 function titleFormatter(value, row) {
     var tagsNames1 = tagsDeco(row.tagsNames1);
@@ -183,9 +169,9 @@ function titleFormatter(value, row) {
 }
 
 /**
- * Decorate tags from given array into html string, set of labeled tags.
- * @param {array} tags; array with tags, ex: row.tagsNames1, row.tags;
- * @return {string} rtTags, a returned sum of decorated tags;
+ * Декоратор тэгов, упаковывает в спаны в виде лэйблов.
+ * @param {array} tags; массив с тэгами, передается из записи, например: row.tagsNames1, row.tags;
+ * @return {string} rtTags, возвращает суму отдекорированых в лэйблы тэгов;
  */
 
 function tagsDeco(tags) {
