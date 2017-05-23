@@ -56,10 +56,12 @@ $(document).ready(function () {
         console.log(err);
     }
 });
+
+
 /**
  * Функция которая участвует в составлении выборки записей для отображения в таблице.
  * Если запись отвечает истиной на все условия, то она добавляется в выборку.
- * @param {item} item; обьект из json_data;
+ * @param {item} item; обьект типа Job из json_data;
  * @return {boolean} true если запись отвечает true на все три функции, false в противном случае;
  */
 var grepFunc = function (item) {
@@ -78,9 +80,16 @@ var grepFunc = function (item) {
      * выдает true либо для записей без 'REMOTE1_50', либо для всех записей(и с и без 'REMOTE1_50');
      */
     function checkbox3Remoteness(array) {
+        /**
+         * Функция проверки наличия определеного значения среди обьектов массива;
+         * @param {array} array; массив для проверки;
+         * @param {string} val; значение для проверки;
+         * @return {boolean} возвращает true если массив содержит проверяемое значение;
+         */
         function checkAvailability(arr, val) {
-          return arr.some(arrVal => val === arrVal);
+            return arr.some(arrVal => val === arrVal);
         }
+
         if (check50remote == true) {
             return true;
         } else if (check50remote == false) {
@@ -90,19 +99,23 @@ var grepFunc = function (item) {
 
     return checkbox3Remoteness(item.tags) && checkbox2Workauth() && checkbox1Tz();
 };
+
 /**
  * Набор глобальных переменых с состояниями чекбоксов.
  * @var {boolean} все переменые булевые.
  */
 var check50remote = false;
+
+
 /**
- * Функция проверяющая состояния чекбоксов и записывающая их.
+ * Функция проверяющая состояния чекбоксов и записывающая их глобальные переменые.
  */
 function readCheckboxesState() {
     check50remote = $('#checkbox50remote').prop('checked');
 }
 
-function tableLoadLongAndHideLoader(){
+
+function tableLoadLongAndHideLoader() {
     $('#table').bootstrapTable('load', $.grep(json_data, grepFunc));
     $(".loader").hide();
     $("#table").show();
@@ -118,9 +131,10 @@ function tableLoad() {
     } else {
         $(".loader").show();
         $("#table").hide();
-        setTimeout(tableLoadLongAndHideLoader,0);
+        setTimeout(tableLoadLongAndHideLoader, 0);
     }
 }
+
 
 /**
  * Форматирует информацию для презентации в развернутом виде записи.
@@ -149,6 +163,7 @@ function detailFormatter(index, row) {
     return html.join('');
 }
 
+
 /**
  * Форматер столбцов может передавать до трех типов аргументов.
  * @param arg1 {string} value; значение item.'collumn field':value для этой записи;
@@ -164,6 +179,7 @@ function publishedFormatter(value) {
     var publishedDay = value.split(",")[0];
     return '<p class="publishedDate">' + publishedDay + '</p>';
 }
+
 /**
  * Форматер для столбца title.
  * @param {string} value; значение title для обьекта Job;
@@ -182,7 +198,6 @@ function titleFormatter(value, row) {
  * @param {array} tags; массив с тэгами, передается из записи, например: row.tagsNames1, row.tags;
  * @return {string} rtTags, возвращает суму отдекорированых в лэйблы тэгов;
  */
-
 function tagsDeco(tags) {
     var appendValue = "";
     var rtTags = "";
