@@ -75,9 +75,9 @@ var grepFunc = function (item) {
 
     /**
      * Функция для проверки обьектов массива на наличие среди них "REMOTE1_50" тэга;
-     * @param {string} element; один из обьектов массива с тэгами;
-     * @return {boolean} в зависимости от состояния чекбокса с "remote 50%
-     * выдает true либо для записей без 'REMOTE1_50', либо для всех записей(и с и без 'REMOTE1_50');
+     * @param {array} array; массив с тэгами для проверки;
+     * @return {boolean} в зависимости от состояния чекбокса с "remote 50%"
+     * выдает true либо для записей без "REMOTE1_50", либо для всех записей(и с и без "REMOTE1_50");
      */
     function checkbox3Remoteness(array) {
         /**
