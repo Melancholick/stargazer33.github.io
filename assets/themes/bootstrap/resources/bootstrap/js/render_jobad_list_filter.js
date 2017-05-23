@@ -1,3 +1,4 @@
+"use strict";
 /**
  * Скрипт выполняющийся после того как страница загрузится
  */
@@ -28,36 +29,6 @@ $(document).ready(function () {
                     formatter: publishedFormatter
                 }]
             });
-            /**
-             * Функция которая составляет выборку записей для отображения в таблице.
-             * Если запись отвечает истиной на все условия, то она добавляется в выборку.
-             * @param {item} item; обьект из json_data;
-             * @return {boolean};
-             */
-            grepFunc = function (item) {
-                function checkbox1Tz() {
-                    return true;
-                }
-
-                function checkbox2Workauth() {
-                    return true;
-                }
-
-                /**
-                 * Функция для '.some' проверки массива с тэгами на наличие '50% remote' тэга
-                 * @param {string} element;
-                 * @return {boolean};
-                 */
-                function checkbox3Remoteness(element) {
-                    if (check50remote == true) {
-                        return element != 'REMOTE1_50';
-                    } else if (check50remote == false) {
-                        return element == 'REMOTE1_100';
-                    }
-                }
-
-                return item.tags.some(checkbox3Remoteness) && checkbox2Workauth() && checkbox1Tz();
-            };
             tableLoad();
         });
         /**
@@ -86,29 +57,68 @@ $(document).ready(function () {
     }
 });
 /**
- * Набор глобальных переменых с состояниями чекбоксов.
+ * Функция которая участвует в составлении выборки записей для отображения в таблице.
+ * Если запись отвечает истиной на все условия, то она добавляется в выборку.
+ * @param {item} item; обьект из json_data;
+ * @return {boolean} true если запись отвечает true на все три функции, false в противном случае;
  */
-var check50remote = '';
+var grepFunc = function (item) {
+    function checkbox1Tz() {
+        return true;
+    }
+
+    function checkbox2Workauth() {
+        return true;
+    }
+
+    /**
+     * Функция для проверки обьектов массива на наличие среди них "REMOTE1_50" тэга;
+     * @param {string} element; один из обьектов массива с тэгами;
+     * @return {boolean} в зависимости от состояния чекбокса с "remote 50%
+     * выдает true либо для записей без 'REMOTE1_50', либо для всех записей(и с и без 'REMOTE1_50');
+     */
+    function checkbox3Remoteness(array) {
+        function checkAvailability(arr, val) {
+          return arr.some(arrVal => val === arrVal);
+        }
+        if (check50remote == true) {
+            return true;
+        } else if (check50remote == false) {
+            return !(checkAvailability(array, 'REMOTE1_50'));
+        }
+    }
+
+    return checkbox3Remoteness(item.tags) && checkbox2Workauth() && checkbox1Tz();
+};
+/**
+ * Набор глобальных переменых с состояниями чекбоксов.
+ * @var {boolean} все переменые булевые.
+ */
+var check50remote = false;
 /**
  * Функция проверяющая состояния чекбоксов и записывающая их.
  */
 function readCheckboxesState() {
     check50remote = $('#checkbox50remote').prop('checked');
 }
+
+function tableLoadLongAndHideLoader(){
+    $('#table').bootstrapTable('load', $.grep(json_data, grepFunc));
+    $(".loader").hide();
+    $("#table").show();
+}
+
 /**
  * Функция загружающая таблицу и отображающая индикатор загрузки.
  */
 function tableLoad() {
+    readCheckboxesState();
     if (json_data.length <= 50) {
-        readCheckboxesState();
-        $table = $('#table').bootstrapTable('load', $.grep(json_data, grepFunc));
+        $('#table').bootstrapTable('load', $.grep(json_data, grepFunc));
     } else {
-        readCheckboxesState();
         $(".loader").show();
         $("#table").hide();
-        $table = $('#table').bootstrapTable('load', $.grep(json_data, grepFunc));
-        $(".loader").hide();
-        $("#table").show();
+        setTimeout(tableLoadLongAndHideLoader,0);
     }
 }
 
@@ -176,6 +186,7 @@ function titleFormatter(value, row) {
 function tagsDeco(tags) {
     var appendValue = "";
     var rtTags = "";
+    var i = 0;
     for (i = 0; i < tags.length; i++) {
         appendValue = '<span class = "tag label label-primary labelTag">' + tags[i] + '</span>';
         rtTags = rtTags.concat(appendValue);
