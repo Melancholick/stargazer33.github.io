@@ -345,33 +345,3 @@ For different display sizes, especialy for handheld devices */
     }
 }
 
-/* @media (min-width: 350px) and (max-width: 380px) {
-.publishedDate{
-  width:75px;
-}
-}
-@media (min-width: 320px) and (max-width: 349px) {
-.publishedDate{
-  width:105px;
-}
-}
-@media (min-width: 290px) and (max-width: 319px) {
-.publishedDate{
-  width:135px;
-}
-}
-@media (min-width: 260px) and (max-width: 289px) {
-.publishedDate{
-  width:165px;
-}
-}
-@media (min-width: 230px) and (max-width: 259px) {
-.publishedDate{
-  width:195px;
-}
-}
-@media (max-width: 229px) {
-.publishedDate{
-  width:225px;
-}
-} */
