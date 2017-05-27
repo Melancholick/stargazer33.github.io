@@ -48,8 +48,26 @@ $(document).ready(function () {
         });
         /**
          * При клике по чекбоксу производится перезагрузка таблица с перепроверкой состояния чекбоксов.
+         * В первой панели единовремено может быть выбран только 1 чекбокс.
          */
         $(".filter-checkbox").click(function () {
+            if($(this).attr("id") == "checkboxWorldwide"){
+                $('#checkboxUStz').prop('checked', false);
+                $('#checkboxEUtz').prop('checked', false);
+                $('#checkboxASIAtz').prop('checked', false);
+            } else if($(this).attr("id") == "checkboxUStz") {
+                $('#checkboxWorldwide').prop('checked', false);
+                $('#checkboxEUtz').prop('checked', false);
+                $('#checkboxASIAtz').prop('checked', false);
+            } else if($(this).attr("id") == "checkboxEUtz") {
+                $('#checkboxWorldwide').prop('checked', false);
+                $('#checkboxUStz').prop('checked', false);
+                $('#checkboxASIAtz').prop('checked', false);
+            } else if($(this).attr("id") == "checkboxASIAtz") {
+                $('#checkboxWorldwide').prop('checked', false);
+                $('#checkboxUStz').prop('checked', false);
+                $('#checkboxEUtz').prop('checked', false);
+            }
             tableLoad();
         });
     } catch (err) {
@@ -74,11 +92,45 @@ var grepFunc = function (item) {
     function checkAvailability(arr, val) {
         return arr.some(arrVal => val === arrVal);
     }
-
-    function checkbox1Tz() {
-        return true;
+    /**
+     * Функция для проверки обьектов массива на наличие среди них "TZ_America" тэга;
+     * @param {array} array; массив с тэгами для проверки;
+     * @return {boolean} в зависимости от состояния чекбокса #checkUStz
+     * выдает true либо для записей с "TZ_America", либо для всех записей;
+     */
+    function checkbox1TzUS(array) {
+        if (checkUStz == true) {
+            return checkAvailability(array, 'TZ_America');
+        } else if (checkUStz == false) {
+            return true;
+        }
     }
-
+    /**
+     * Функция для проверки обьектов массива на наличие среди них "TZ_Europe" тэга;
+     * @param {array} array; массив с тэгами для проверки;
+     * @return {boolean} в зависимости от состояния чекбокса #checkEUtz
+     * выдает true либо для записей с "TZ_Europe", либо для всех записей;
+     */
+    function checkbox1TzEU(array) {
+        if (checkEUtz == true) {
+            return checkAvailability(array, 'TZ_Europe');
+        } else if (checkEUtz == false) {
+            return true;
+        }
+    }
+    /**
+     * Функция для проверки обьектов массива на наличие среди них "TZ_ASIA" тэга;
+     * @param {array} array; массив с тэгами для проверки;
+     * @return {boolean} в зависимости от состояния чекбокса #checkASIAtz
+     * выдает true либо для записей с "TZ_ASIA", либо для всех записей;
+     */
+    function checkbox1TzASIA(array) {
+        if (checkASIAtz == true) {
+            return checkAvailability(array, 'TZ_ASIA');
+        } else if (checkASIAtz == false) {
+            return true;
+        }
+    }
     /**
      * Функция для проверки обьектов массива на наличие среди них "WORKAUTH_US" тэга;
      * @param {array} array; массив с тэгами для проверки;
@@ -120,8 +172,7 @@ var grepFunc = function (item) {
             return !(checkAvailability(array, 'REMOTE1_50'));
         }
     }
-
-    return checkbox3Remoteness(item.tags) && checkbox2WorkauthUS(item.tags) && checkbox2WorkauthEU(item.tags) && checkbox1Tz();
+    return checkbox3Remoteness(item.tags) && checkbox2WorkauthUS(item.tags) && checkbox2WorkauthEU(item.tags) && checkbox1TzUS(item.tags) && checkbox1TzEU(item.tags) && checkbox1TzASIA(item.tags);
 };
 
 /**
@@ -131,6 +182,9 @@ var grepFunc = function (item) {
 var check50remote = false;
 var checkUSauth = false;
 var checkEUauth = false;
+var checkUStz = false;
+var checkEUtz = false;
+var checkASIAtz = false;
 
 
 /**
@@ -140,6 +194,14 @@ function readCheckboxesState() {
     check50remote = $('#checkbox50remote').prop('checked');
     checkUSauth = $('#checkboxUSauth').prop('checked');
     checkEUauth = $('#checkboxEUauth').prop('checked');
+    checkUStz = $('#checkboxUStz').prop('checked');
+    checkEUtz = $('#checkboxEUtz').prop('checked');
+    checkASIAtz = $('#checkboxASIAtz').prop('checked');
+}
+function changeCheckboxesState(){
+    if (checkUStz == false && checkEUtz == false && checkASIAtz == false) {
+        $('#checkboxWorldwide').prop('checked', true);
+    }
 }
 
 
@@ -154,6 +216,7 @@ function tableLoadLongAndHideLoader() {
  */
 function tableLoad() {
     readCheckboxesState();
+    changeCheckboxesState();
     if (json_data.length <= 50) {
         $('#table').bootstrapTable('load', $.grep(json_data, grepFunc));
     } else {
