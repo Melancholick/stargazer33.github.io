@@ -57,16 +57,10 @@ $(document).ready(function () {
                 $('#checkboxASIAtz').prop('checked', false);
             } else if($(this).attr("id") == "checkboxUStz") {
                 $('#checkboxWorldwide').prop('checked', false);
-                $('#checkboxEUtz').prop('checked', false);
-                $('#checkboxASIAtz').prop('checked', false);
             } else if($(this).attr("id") == "checkboxEUtz") {
                 $('#checkboxWorldwide').prop('checked', false);
-                $('#checkboxUStz').prop('checked', false);
-                $('#checkboxASIAtz').prop('checked', false);
             } else if($(this).attr("id") == "checkboxASIAtz") {
                 $('#checkboxWorldwide').prop('checked', false);
-                $('#checkboxUStz').prop('checked', false);
-                $('#checkboxEUtz').prop('checked', false);
             }
             tableLoad();
         });
@@ -93,40 +87,52 @@ var grepFunc = function (item) {
         return arr.some(arrVal => val === arrVal);
     }
     /**
-     * Функция для проверки обьектов массива на наличие среди них "TZ_America" тэга;
+     * Функция проверки наличия определеного значениясоответсвующего регулярному выражению среди обьектов массива;
+     * @param {array} array; массив для проверки;
+     * @param {regexp obj} val; значение для проверки, обьект типа regexp;
+     * @return {boolean} возвращает true если массив содержит проверяемое значение;
+     */
+    function checkAvailabilityRegexp(arr, val) {
+        return arr.some(function(rx) { return val.test(rx); });
+    }
+    /**
+     * Функция для проверки обьектов массива на наличие среди них тэга содержащего "TZ_America";
      * @param {array} array; массив с тэгами для проверки;
      * @return {boolean} в зависимости от состояния чекбокса #checkUStz
      * выдает true либо для записей с "TZ_America", либо для всех записей;
      */
     function checkbox1TzUS(array) {
         if (checkUStz == true) {
-            return checkAvailability(array, 'TZ_America');
+            var regexp = new RegExp('TZ_America', 'g');
+            return checkAvailabilityRegexp(array, regexp);
         } else if (checkUStz == false) {
             return true;
         }
     }
     /**
-     * Функция для проверки обьектов массива на наличие среди них "TZ_Europe" тэга;
+     * Функция для проверки обьектов массива на наличие среди них тэга содержащего "TZ_Europe";
      * @param {array} array; массив с тэгами для проверки;
      * @return {boolean} в зависимости от состояния чекбокса #checkEUtz
      * выдает true либо для записей с "TZ_Europe", либо для всех записей;
      */
     function checkbox1TzEU(array) {
         if (checkEUtz == true) {
-            return checkAvailability(array, 'TZ_Europe');
+            var regexp = new RegExp('TZ_Europe', 'g');
+            return checkAvailabilityRegexp(array, regexp);
         } else if (checkEUtz == false) {
             return true;
         }
     }
     /**
-     * Функция для проверки обьектов массива на наличие среди них "TZ_ASIA" тэга;
+     * Функция для проверки обьектов массива на наличие среди них тэга содержащего "TZ_Asia";
      * @param {array} array; массив с тэгами для проверки;
      * @return {boolean} в зависимости от состояния чекбокса #checkASIAtz
-     * выдает true либо для записей с "TZ_ASIA", либо для всех записей;
+     * выдает true либо для записей с "TZ_Asia", либо для всех записей;
      */
     function checkbox1TzASIA(array) {
         if (checkASIAtz == true) {
-            return checkAvailability(array, 'TZ_ASIA');
+            var regexp = new RegExp('TZ_Asia', 'g');
+            return checkAvailabilityRegexp(array, regexp);
         } else if (checkASIAtz == false) {
             return true;
         }
@@ -172,7 +178,7 @@ var grepFunc = function (item) {
             return !(checkAvailability(array, 'REMOTE1_50'));
         }
     }
-    return checkbox3Remoteness(item.tags) && checkbox2WorkauthUS(item.tags) && checkbox2WorkauthEU(item.tags) && checkbox1TzUS(item.tags) && checkbox1TzEU(item.tags) && checkbox1TzASIA(item.tags);
+    return checkbox3Remoteness(item.tags) && checkbox2WorkauthUS(item.tags) && checkbox2WorkauthEU(item.tags) && (checkbox1TzUS(item.tags) && checkbox1TzEU(item.tags) && checkbox1TzASIA(item.tags));
 };
 
 /**
