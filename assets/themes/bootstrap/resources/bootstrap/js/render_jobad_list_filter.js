@@ -99,7 +99,8 @@ var grepFunc = function (item) {
      * Функция для проверки обьектов массива на наличие среди них тэга содержащего "TZ_America";
      * @param {array} array; массив с тэгами для проверки;
      * @return {boolean} в зависимости от состояния чекбокса #checkUStz
-     * выдает true либо для записей с "TZ_America", либо для всех записей;
+     * выдает true либо для записей с "TZ_America", либо для всех записей если активен чекбокс "#checkboxWorldwide"
+     * и чекбокс "#checkboxUStz" неактивен;
      */
     function checkbox1TzUS(array) {
         if (checkUStz == true) {
@@ -115,7 +116,8 @@ var grepFunc = function (item) {
      * Функция для проверки обьектов массива на наличие среди них тэга содержащего "TZ_Europe";
      * @param {array} array; массив с тэгами для проверки;
      * @return {boolean} в зависимости от состояния чекбокса #checkEUtz
-     * выдает true либо для записей с "TZ_Europe", либо для всех записей;
+     * выдает true либо для записей с "TZ_Europe", либо для всех записей если активен чекбокс "#checkboxWorldwide"
+     * и чекбокс "#checkboxEUtz" неактивен;
      */
     function checkbox1TzEU(array) {
         if (checkEUtz == true) {
@@ -131,7 +133,8 @@ var grepFunc = function (item) {
      * Функция для проверки обьектов массива на наличие среди них тэга содержащего "TZ_Asia";
      * @param {array} array; массив с тэгами для проверки;
      * @return {boolean} в зависимости от состояния чекбокса #checkASIAtz
-     * выдает true либо для записей с "TZ_Asia", либо для всех записей;
+     * выдает true либо для записей с "TZ_America", либо для всех записей если активен чекбокс "#checkboxWorldwide"
+     * и чекбокс "#checkboxUStz" неактивен;
      */
     function checkbox1TzASIA(array) {
         if (checkASIAtz == true) {
