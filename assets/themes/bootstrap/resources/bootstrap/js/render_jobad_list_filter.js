@@ -105,8 +105,10 @@ var grepFunc = function (item) {
         if (checkUStz == true) {
             var regexp = new RegExp('TZ_America', 'g');
             return checkAvailabilityRegexp(array, regexp);
-        } else if (checkUStz == false) {
+        } else if (checkUStz == false && checkWorldwide == true) {
             return true;
+        } else if (checkUStz == false) {
+            return false;
         }
     }
     /**
@@ -119,8 +121,10 @@ var grepFunc = function (item) {
         if (checkEUtz == true) {
             var regexp = new RegExp('TZ_Europe', 'g');
             return checkAvailabilityRegexp(array, regexp);
-        } else if (checkEUtz == false) {
+        } else if (checkEUtz == false && checkWorldwide == true) {
             return true;
+        } else if (checkEUtz == false) {
+            return false;
         }
     }
     /**
@@ -133,8 +137,10 @@ var grepFunc = function (item) {
         if (checkASIAtz == true) {
             var regexp = new RegExp('TZ_Asia', 'g');
             return checkAvailabilityRegexp(array, regexp);
-        } else if (checkASIAtz == false) {
+        } else if (checkASIAtz == false && checkWorldwide == true) {
             return true;
+        } else if (checkASIAtz == false) {
+            return false;
         }
     }
     /**
@@ -178,13 +184,14 @@ var grepFunc = function (item) {
             return !(checkAvailability(array, 'REMOTE1_50'));
         }
     }
-    return checkbox3Remoteness(item.tags) && checkbox2WorkauthUS(item.tags) && checkbox2WorkauthEU(item.tags) && (checkbox1TzUS(item.tags) && checkbox1TzEU(item.tags) && checkbox1TzASIA(item.tags));
+    return checkbox3Remoteness(item.tags) && checkbox2WorkauthUS(item.tags) && checkbox2WorkauthEU(item.tags) && (checkbox1TzUS(item.tags) || checkbox1TzEU(item.tags) || checkbox1TzASIA(item.tags));
 };
 
 /**
  * Набор глобальных переменых с состояниями чекбоксов.
  * @var {boolean} все переменые булевые.
  */
+var checkWorldwide = false;
 var check50remote = false;
 var checkUSauth = false;
 var checkEUauth = false;
@@ -197,6 +204,7 @@ var checkASIAtz = false;
  * Функция проверяющая состояния чекбоксов и записывающая их глобальные переменые.
  */
 function readCheckboxesState() {
+    checkWorldwide = $('#checkboxWorldwide').prop('checked');
     check50remote = $('#checkbox50remote').prop('checked');
     checkUSauth = $('#checkboxUSauth').prop('checked');
     checkEUauth = $('#checkboxEUauth').prop('checked');
