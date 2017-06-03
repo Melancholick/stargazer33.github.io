@@ -103,13 +103,10 @@ var grepFunc = function (item) {
      * и чекбокс "#checkboxUStz" неактивен;
      */
     function checkbox1TzUS(array) {
-        if (checkUStz == true) {
-            var regexp = new RegExp('TZ_America', 'g');
-            return checkAvailabilityRegexp(array, regexp);
-        } else if (checkUStz == false && checkWorldwide == true) {
+        if (checkWorldwide == true) {
             return true;
-        } else if (checkUStz == false) {
-            return false;
+        } else if (checkUStz == true) {
+            return checkAvailabilityRegexp(array, regexpTzUS);
         }
     }
     /**
@@ -120,13 +117,10 @@ var grepFunc = function (item) {
      * и чекбокс "#checkboxEUtz" неактивен;
      */
     function checkbox1TzEU(array) {
-        if (checkEUtz == true) {
-            var regexp = new RegExp('TZ_Europe', 'g');
-            return checkAvailabilityRegexp(array, regexp);
-        } else if (checkEUtz == false && checkWorldwide == true) {
+        if (checkWorldwide == true) {
             return true;
-        } else if (checkEUtz == false) {
-            return false;
+        } else if (checkEUtz == true) {
+            return checkAvailability(array, 'TZ_Europe');
         }
     }
     /**
@@ -137,13 +131,10 @@ var grepFunc = function (item) {
      * и чекбокс "#checkboxUStz" неактивен;
      */
     function checkbox1TzASIA(array) {
-        if (checkASIAtz == true) {
-            var regexp = new RegExp('TZ_Asia', 'g');
-            return checkAvailabilityRegexp(array, regexp);
-        } else if (checkASIAtz == false && checkWorldwide == true) {
+        if (checkWorldwide == true) {
             return true;
-        } else if (checkASIAtz == false) {
-            return false;
+        } else if (checkASIAtz == true) {
+            return checkAvailability(array, 'TZ_Asia');
         }
     }
     /**
@@ -202,6 +193,11 @@ var checkUStz = false;
 var checkEUtz = false;
 var checkASIAtz = false;
 
+/**
+ * Переменная используемая при фильтраци с использованием регулярных выражений.
+ * @var {regexp obj} регулярное выражение.
+ */
+var regexpTzUS = new RegExp('^(TZ_America)', 'g');
 
 /**
  * Функция проверяющая состояния чекбоксов и записывающая их глобальные переменые.
@@ -219,6 +215,7 @@ function changeCheckboxesState(){
     if (checkUStz == false && checkEUtz == false && checkASIAtz == false) {
         $('#checkboxWorldwide').prop('checked', true);
     }
+    readCheckboxesState();
 }
 
 
