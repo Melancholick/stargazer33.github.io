@@ -47,6 +47,7 @@ $(document).ready(function () {
         });
 
         $(".filter-checkbox").click(handleClickOnFilterCheckbox);
+        $(".searchButton").click(handleClickOnSearchButton);
     } catch (err) {
         console.log(err);
     }
@@ -159,6 +160,10 @@ function handleClickOnFilterCheckbox() {
     changeCheckboxesState();
 
     tableLoad(false);
+}
+
+function handleClickOnSearchButton() {
+    console.log('search');
 }
 
 /**

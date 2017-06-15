@@ -5,7 +5,20 @@
 {% endif %}
 {% assign datafile = thisnodes[0].datafile %}
 {% assign jobadlist = site.data[datafile].items %}
-
+<div class="row searchRow">
+  <div class="col-sm-4 searchCol">
+    <form class="searchForm">
+      <div class="input-group">
+        <input type="text" class="form-control" id="searchInput">
+        <div class="input-group-btn">
+          <button type="button" class="btn btn-primary searchButton">
+            <span class="glyphicon glyphicon-search"></span>
+          </button>
+        </div>
+      </div>
+    </form> 
+  </div>
+</div>
 <div class="row filterRow">
     <div class="col-xs-4 well well-lg-sp leftFilter">
         <div class="radio">

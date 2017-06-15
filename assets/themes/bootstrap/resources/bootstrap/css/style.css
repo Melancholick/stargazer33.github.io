@@ -118,6 +118,31 @@ div.fixed-table-body > div.fixed-table-pagination > div.pull-left.pagination-det
   min-width: 10px;
 }
 
+/*
+Search Form 
+*/
+.page-header{
+  margin: 40px 0 10px;
+}
+
+.searchRow{
+  padding-bottom: 10px;
+}
+
+.searchCol{
+  padding-right:3px;
+}
+
+@media (max-width: 767px){
+  .searchCol{
+    padding-right:15px;
+  }
+}
+
+.searchButton{
+  width:60px;
+}
+
 .filterTip{
   color:#000;
 }
