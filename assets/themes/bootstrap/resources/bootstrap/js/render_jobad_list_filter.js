@@ -47,7 +47,8 @@ $(document).ready(function () {
         });
 
         $(".filter-checkbox").click(handleClickOnFilterCheckbox);
-        $(".searchButton").click(handleClickOnSearchButton);
+        $("#searchBtn").click(handleClickOnSearchButton);
+        $("#searchInput").keypress(handlePressOnEnterInInputForm);
     } catch (err) {
         console.log(err);
     }
@@ -164,6 +165,14 @@ function handleClickOnFilterCheckbox() {
 
 function handleClickOnSearchButton() {
     console.log('search');
+}
+
+function handlePressOnEnterInInputForm(event) {
+    event.preventDefault();
+    var keycode = (event.keyCode ? event.keyCode : event.which);
+    if(keycode == '13'){
+        handleClickOnSearchButton(); 
+    }
 }
 
 /**

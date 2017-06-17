@@ -125,6 +125,18 @@ Search Form
   margin: 40px 0 10px;
 }
 
+#searchBtn {
+  height: 34px;
+  border-radius: 4px;
+  margin-left: 5px;
+  width:60px;
+}
+
+#searchInput{
+  height: 34px;
+  border-radius: 4px;
+}
+
 .searchRow{
   padding-bottom: 10px;
 }
@@ -137,10 +149,6 @@ Search Form
   .searchCol{
     padding-right:15px;
   }
-}
-
-.searchButton{
-  width:60px;
 }
 
 .filterTip{
