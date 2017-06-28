@@ -1,5 +1,10 @@
 /* Custom container */
 
+#jobSearchInputID {
+    -webkit-appearance: none!important;
+    -webkit-border-radius:0px!important;
+}
+
 p{
   color:#000;
 }
